@@ -72,11 +72,12 @@ upgrading - move to new room
             case "acting":
                 actingState();
                 break;
-            case "upgrading":
-                upgradingState();
-                break;
         }
     }
+    public void turn(Office currroom){
+        //upgrade the over chance to move
+    }
+    
     private void idelState(Room currroom){
         String userChoice;
         Scanner console = new Scanner(System.in);
@@ -129,6 +130,11 @@ upgrading - move to new room
             }
         }
     }
+
+    private void actingState(){
+    
+    }
+    
     private String[] parseList(String[] available){
         String[] parse;
         String[] result;
