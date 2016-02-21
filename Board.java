@@ -26,7 +26,7 @@ public class Board{
         int starroles=room1.getNumStarRoles();
         int budget=room1.getBudget();
         String[] x = new String[players.length];
-        TreeMap<Integer,Player> playertree = new TreeMap();
+        TreeMap<Integer,Player> playertree = new TreeMap<Integer, Player>();
         for(int i=0;i<players.length;i++){
             x=players[i].getRole();
             String ref = x[0];
@@ -89,7 +89,7 @@ public class Board{
         try{
             File trailerfile = new File("Trailer.txt");
             Scanner console = new Scanner(trailerfile);
-            ArrayList<String> rooms = new ArrayList();
+            ArrayList<String> rooms = new ArrayList<String>();
             while(console.hasNext()){
                 String line = console.nextLine();
                 String[] info = line.split("///");
@@ -108,7 +108,7 @@ public class Board{
         try{
             File officefile = new File("CastingOffice.txt");
             Scanner console = new Scanner(officefile);
-            ArrayList<String> rooms = new ArrayList();
+            ArrayList<String> rooms = new ArrayList<String>();
             while(console.hasNext()){
                 String line = console.nextLine();
                 String[] info = line.split("///");
@@ -158,12 +158,24 @@ public class Board{
         numdays-=1;
         if(numdays!=0){         
             for(int i=0;i<rooms.length;i++){
+                rooms[i].removeStarRoles();
                 rooms[i].getCardInfo(deck.getCard());
                 rooms[i].resetCounter();
             }    
+            for(int i = 0;i<players.length;i++){
+                players[i].updateRoom("trailer");
+                players[i].setRole("");
+                players[i].setState(0);
+                players[i].updateRehearsals(-1);
+            }
         }else{
             calcWinner();
         }
+        System.out.println();
+        System.out.println("--------------------------------------------------------------------");
+        System.out.println("Congradulations you have completed a day!");
+        System.out.println("--------------------------------------------------------------------");
+        System.out.println();
     }
     
     
@@ -173,32 +185,33 @@ public class Board{
     }
     
     public void calcWinner(){
-        int[] winners = new int[this.players.length];
+        String[] winners = new String[this.players.length];
         int max=0;
         int temp=0;
         int j=0;
         for(int i=0;i<this.players.length;i++){
             temp=calcPayOut(this.players[i]);
             if(temp>max){
-                Arrays.fill(winners,0);
-                winners[0]=i;
+                Arrays.fill(winners,"");
+                winners[0]=players[i].getName();
                 j=1;
                 max=temp;            
             }else if(temp==max){
-                winners[j]=i;
+                winners[j]=players[i].getName();
                 j++;
             }
             
         }
         if(j<=1){
-            System.out.println("Player "+winners[0]+" is the winner!");
+            System.out.println("******************************************************************************************************************************************");
+            System.out.println("Player "+winners[0]+" is the winner!\n");
         }  
         else{
             System.out.println("Players ");
             for(int k=0;k<j;k++){
                 System.out.print(winners[k]+", ");
             }
-            System.out.print("have tied for the win!");
+            System.out.printf("have tied for the win!\n");
         }
     }
     

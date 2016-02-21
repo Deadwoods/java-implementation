@@ -9,7 +9,7 @@ public class Player{
     private int credits;
     private int dollars;
     private HashMap<String,Integer> rehearsals = new HashMap<String, Integer>();
-    private int idelBitStar; //0 = no role, 1 = bit role, 2 = star role
+    private int idleBitStar; //0 = no role, 1 = bit role, 2 = star role
     private String role;
     private Dice dice;
     
@@ -17,8 +17,8 @@ public class Player{
         this.rank=rank;
         this.credits=credits;
         this.dollars=dollars;
-        this.room="Casting Office";
-        this.idelBitStar = 0;
+        this.room="trailer";
+        this.idleBitStar = 0;
         this.role = "";
         this.name = name;
         this.dice=dice;
@@ -60,7 +60,7 @@ public class Player{
     public String[] getRole(){
         String[] x = new String[3];
         x[0]=this.room;
-        x[1]=Integer.toString(this.idelBitStar);
+        x[1]=Integer.toString(this.idleBitStar);
         if(this.role.equals("")){
             x[2]="0";
         }else{
@@ -72,7 +72,7 @@ public class Player{
     
     
     public void setState(int num){
-        this.idelBitStar=num;
+        this.idleBitStar=num;
     }
     
     //if 1 increase num rehearsals by 1, if -1 reset map
@@ -92,8 +92,8 @@ public class Player{
     ////////////////////////////////////////////////
     /*
      * if player is in a normal room (not trailer or office)
-     * will either be in a state of acting or in an idel state
-     * if idel ask if to move and check for valid move
+     * will either be in a state of acting or in an idle state
+     * if idle ask if to move and check for valid move
      * if acting call acting method more description bellow
      */
     ///////////////////////
@@ -105,8 +105,8 @@ public class Player{
         boolean validInput = false;
         
         playerState ();
-        if(!stayIdel()){
-            if(this.idelBitStar == 0){
+        if(!stayidle()){
+            if(this.idleBitStar == 0){
                 while(!validInput){
                     moveOption(curroom.getAdjacentRooms());
                     starRoleOptions(curroom.getStarRoles());
@@ -178,7 +178,7 @@ public class Player{
     }
     ////////////////////////////////////////////////
     /*
-     * if player is in the trailer he can only move or stay idel
+     * if player is in the trailer he can only move or stay idle
      * if he wants to move check for a valid move
      */
     ///////////////////////
@@ -190,7 +190,7 @@ public class Player{
         boolean validInput = false;
         
         playerState ();
-        if(!stayIdel()){
+        if(!stayidle()){
             while(!validInput){
                 moveOption(curroom.getAdjacentRooms());
                 userChoice = console.nextLine();
@@ -225,7 +225,7 @@ public class Player{
     ////////////////////////////////////////////////
     /*
      * if player is in the casting office at the begining of the turn
-     * ask if he wants to stay idel if no
+     * ask if he wants to stay idle if no
      * ask to upgrade if yes ask for an upgrade and check if it is valid
      * ask after upgrading if player wants to move
      * if yes check for valid move
@@ -239,22 +239,20 @@ public class Player{
         boolean validInput = false;
         
         playerState ();
-        if(!stayIdel()){
-            while(!validInput){
-                if(chooseUpgrade()){
-                    validInput = upgradeRank(curroom);
-                }
-                else{
-                    validInput = true;
-                }
+        while(!validInput){
+            if(chooseUpgrade()){
+                validInput = upgradeRank(curroom);
             }
-            validInput = false;
-            if(!stayIdel()){
-                while(!validInput){
-                    moveOption(curroom.getAdjacentRooms());
-                    userChoice = console.nextLine();
-                    validInput = parseChoice(userChoice, curroom);
-                }
+            else{
+                validInput = true;
+            }
+        }
+        validInput = false;
+        if(!stayidle()){
+            while(!validInput){
+                moveOption(curroom.getAdjacentRooms());
+                userChoice = console.nextLine();
+                validInput = parseChoice(userChoice, curroom);
             }
         }
         System.out.println("End of turn");   
@@ -290,8 +288,8 @@ public class Player{
     }
     private void actingOptions(Room curroom){
         System.out.printf("You are currently acting and must continue untill the card has been completed.\nRole: %s\n",this.role);
-        System.out.printf("Total rehearlas for current role: %d Budget for role: %s ", rehearsals.get(this.role),curroom.getBudget());
-        System.out.println("Would you like to act or rehearse.");
+        System.out.printf("Total rehearlas for current role: %d, Budget for role: %s, Remaining Shot counters: %d\n", rehearsals.get(this.role),curroom.getBudget(), curroom.getShotCounter());
+        System.out.println("Would you like to act or Rehearse.");
     }
     private void moveOption(ArrayList<String>availableMoves){
         System.out.printf("\nTurn options:\nMove: ");
@@ -320,17 +318,17 @@ public class Player{
     }
     ////////////////////////////////////////////////
     /*
-     * check if the player wants to stay idel or not 
+     * check if the player wants to stay idle or not 
      * if yes return true will cause turn method to skip other options
      */
     ///////////////////////
-    private boolean stayIdel(){
+    private boolean stayidle(){
         boolean validInput = false;
         String userChoice = "";
         Scanner console = new Scanner(System.in);
         
         while(!validInput){
-            System.out.printf("Would you like to stay idel in this room (y - n): ");
+            System.out.printf("Would you like to stay idle in this room (y - n): ");
             userChoice = console.nextLine().toLowerCase();
             if(userChoice.equals("y")){
                 return true;
@@ -346,7 +344,7 @@ public class Player{
     }
     ////////////////////////////////////////////////
     /*
-     * similar to stayIdel above but asking if they would like to upgrade or not
+     * similar to stayidle above but asking if they would like to upgrade or not
      * will only be called in the office
      */
     ///////////////////////
@@ -421,20 +419,20 @@ public class Player{
     /*
      * check if the role they want to take is valid
      * and their rank is high enough
-     * idelBitStar coresponds to weather they are idel = 0 have a bit role = 1 or a star = 2 
+     * idleBitStar coresponds to weather they are idle = 0 have a bit role = 1 or a star = 2 
      */
     ///////////////////////    
     private boolean validWork(String chooseRole, Room curroom){
         String fullName = searchRoles(curroom.getStarRoles(), chooseRole);
         if(!fullName.equals("")){
-            this.idelBitStar = 2;
+            this.idleBitStar = 2;
             curroom.takeStarRole(fullName);
             return true;
         }
         else{
             fullName = searchRoles(curroom.getBitRoles(), chooseRole);
             if(!fullName.equals("")){
-                this.idelBitStar = 1;
+                this.idleBitStar = 1;
                 curroom.takeBitRole(fullName);
                 return true;
             }
@@ -518,12 +516,12 @@ return result;
             }
             int sum = dice.act(num);
             int budget=curroom.getBudget();
-            if(idelBitStar==1){  
+            if(idleBitStar==1){  
                 if(sum>=budget){               
                     curroom.updateCounter();
                     if(curroom.getShotCounter()==0){
                         curroom.returnBitRole(this.role);
-                        this.idelBitStar = 0;
+                        this.idleBitStar = 0;
                     }
                     System.out.println("You rolled a "+sum+"!"+" Congratulations you earned 1 credit and 1 dollar!");
                     updateDollars(1);
@@ -544,7 +542,7 @@ return result;
                     updateCredits(2);
                 }
                 else{
-                    System.out.println("You rolled a "+sum+"!"+" Sorry your a shit actor you get nothing");
+                    System.out.println("You rolled a "+sum+"!"+" Sorry your acting skills suck you get nothing");
                 }     
             }
         }

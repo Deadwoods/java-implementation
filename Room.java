@@ -5,8 +5,8 @@ public class Room{
     
     private int shotcounter1;
     private int shotcounter;
-    private HashMap<String,String> starroles = new HashMap();
-    private HashMap<String,String> bitroles = new HashMap();
+    private HashMap<String,String> starroles = new HashMap<String, String>();
+    private HashMap<String,String> bitroles = new HashMap<String, String>();
     private int budget;   
     private String[] adjacentrooms;
     private String name;
@@ -31,7 +31,7 @@ public class Room{
     }
     
     public ArrayList<String> getAdjacentRooms(){
-        ArrayList<String> adjacentrooms1 = new ArrayList();
+        ArrayList<String> adjacentrooms1 = new ArrayList<String>();
         for(int i=0;i<this.adjacentrooms.length;i++){
             adjacentrooms1.add(this.adjacentrooms[i]);
         }
@@ -60,7 +60,7 @@ public class Room{
     }
     
     public ArrayList<String> getStarRoles(){
-        ArrayList<String> starroles1=new ArrayList();     
+        ArrayList<String> starroles1=new ArrayList<String>();     
         for (String key : this.starroles.keySet()){
             if(this.starroles.get(key).equals("true")){
                 starroles1.add(key);            
@@ -77,14 +77,16 @@ public class Room{
             bitroles.put(key,"false");           
         }
     }
-    
+    public void removeStarRoles(){
+        this.starroles.clear();
+    }
     
     public int getNumStarRoles(){
         return this.starroles.size();
     }
     
     public ArrayList<String> getBitRoles(){
-        ArrayList<String> bitroles1=new ArrayList();
+        ArrayList<String> bitroles1=new ArrayList<String>();
         
         for (String key : this.bitroles.keySet()){
             if(this.bitroles.get(key).equals("true")){
@@ -117,11 +119,8 @@ public class Room{
     }
     
     public void resetCounter(){
-        for (String key : this.starroles.keySet()){
-            starroles.put(key,"true");           
-        }
         for (String key : this.bitroles.keySet()){
-            starroles.put(key,"true");           
+            bitroles.put(key,"true");           
         }
         shotcounter=shotcounter1;      
     }

@@ -8,7 +8,6 @@ public class Deck{
    
    private HashMap<Cards,String> theCards=new HashMap<Cards,String>();   
    
-   
    public void loadCards(){
       try{
          File card_file = new File("cards.txt");

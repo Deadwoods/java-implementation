@@ -7,16 +7,16 @@ public class DeadWood{
     public static void main(String[]	args)	{	 
         
         int numplayer=0;
-        int credits=50;
+        int credits=0;
         int numdays=4;
-        int dollars=50;
+        int dollars=0;
         int rank=1;		  
         boolean valid=false;	
         Dice dice= new Dice();
         
         
         
-        Scanner console =	new Scanner(System.in);
+        Scanner console  = new Scanner(System.in);
         System.out.println("Enter number of players: ");
         while(!valid){
             try{
@@ -32,7 +32,7 @@ public class DeadWood{
                 
             }			
         }
-        
+        console.nextLine();
         Player[] players=new Player[numplayer];
         String name = "";
         for(int i=0;i<numplayer;i++){
