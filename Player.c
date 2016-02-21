@@ -25,16 +25,16 @@ public class Player{
     }
     
     public int getDollars(){
-        return this.dollars;
+      return this.dollars;
     }
     public int getCredits(){
-        return this.credits;
+      return this.credits;
     }
     public int getRank(){
-        return this.rank;
+      return this.rank;
     }
     public String getName(){
-        return this.name;
+      return this.name;
     }
     public void setRole(String role){
         this.role = role;
@@ -62,17 +62,17 @@ public class Player{
         x[0]=this.room;
         x[1]=Integer.toString(this.idelBitStar);
         if(this.role.equals("")){
-            x[2]="0";
+         x[2]="0";
         }else{
-            String[] y=this.role.split(">");        
-            x[2]=y[1];
+         String[] y=this.role.split(">");        
+         x[2]=y[1];
         }
-        return x; 
+      return x; 
     }    
     
     
     public void setState(int num){
-        this.idelBitStar=num;
+      this.idelBitStar=num;
     }
     
     //if 1 increase num rehearsals by 1, if -1 reset map
@@ -89,17 +89,17 @@ public class Player{
             this.rehearsals.clear();
         }
     }
-    ////////////////////////////////////////////////
-    /*
-     * if player is in a normal room (not trailer or office)
-     * will either be in a state of acting or in an idel state
-     * if idel ask if to move and check for valid move
-     * if acting call acting method more description bellow
-     */
-    ///////////////////////
+////////////////////////////////////////////////
+/*
+if player is in a normal room (not trailer or office)
+will either be in a state of acting or in an idel state
+if idel ask if to move and check for valid move
+if acting call acting method more description bellow
+*/
+///////////////////////
     public void turn(Room curroom){
         printTurn();
-        
+    
         String userChoice = "";
         Scanner console = new Scanner(System.in);
         boolean validInput = false;
@@ -132,56 +132,56 @@ public class Player{
     private boolean parseChoice(String userChoice, Room curroom){
         String turnOption = "";
         String roomOrRole = "";
-        try{
-            turnOption = userChoice.substring(0,userChoice.indexOf(' '));
-            roomOrRole = userChoice.substring(userChoice.indexOf(' ')+1);                
-            if(turnOption.equals("move")){
-                return validRoom(roomOrRole, curroom.getAdjacentRooms());
+            try{
+                turnOption = userChoice.substring(0,userChoice.indexOf(' '));
+                roomOrRole = userChoice.substring(userChoice.indexOf(' ')+1);                
+                if(turnOption.equals("move")){
+                    return validRoom(roomOrRole, curroom.getAdjacentRooms());
+                }
+                else if(turnOption.equals("work")) {                     
+                    return validWork(roomOrRole, curroom);                    
+                }
+
+                else{
+                    System.out.println("Not a valid turn option please choose move,work");
+                    return false;
+                }
             }
-            else if(turnOption.equals("work")) {                     
-                return validWork(roomOrRole, curroom);                    
-            }
-            
-            else{
-                System.out.println("Not a valid turn option please choose move,work");
+            catch(IndexOutOfBoundsException e){
+                System.out.println("INVALID INPUT");
                 return false;
             }
-        }
-        catch(IndexOutOfBoundsException e){
-            System.out.println("INVALID INPUT");
-            return false;
-        }
-        
+         
     }
-    
+
     private boolean parseActingChoice(Room curroom, String userChoice){
-        try{
-            if(userChoice.equals("act")){
-                actingState(curroom, 1);
-                return true;
+            try{
+                if(userChoice.equals("act")){
+                    actingState(curroom, 1);
+                    return true;
+                }
+                else if(userChoice.equals("Rehearse")) {
+                    actingState(curroom, 0);
+                    return true;
+                }
+
+                else{
+                    System.out.println("Not a valid turn option please choose act or Rehearse");
+                    return false;
+                }
             }
-            else if(userChoice.equals("Rehearse")) {
-                actingState(curroom, 0);
-                return true;
-            }
-            
-            else{
-                System.out.println("Not a valid turn option please choose act or Rehearse");
+            catch(IndexOutOfBoundsException e){
+                System.out.println("INVALID INPUT");
                 return false;
             }
-        }
-        catch(IndexOutOfBoundsException e){
-            System.out.println("INVALID INPUT");
-            return false;
-        }
-        
-    }
-    ////////////////////////////////////////////////
-    /*
-     * if player is in the trailer he can only move or stay idel
-     * if he wants to move check for a valid move
-     */
-    ///////////////////////
+            
+       }
+////////////////////////////////////////////////
+/*
+if player is in the trailer he can only move or stay idel
+if he wants to move check for a valid move
+*/
+///////////////////////
     public void turn (Trailer curroom){
         printTurn();
         
@@ -205,32 +205,32 @@ public class Player{
     private boolean parseChoice(String userChoice, Trailer curroom){
         String turnOption = "";        
         String roomChoice = "";
-        try{
-            turnOption = userChoice.substring(0,userChoice.indexOf(' '));
-            roomChoice = userChoice.substring(userChoice.indexOf(' ')+1);
-            if(turnOption.equals("move")){
-                return validRoom(roomChoice, curroom.getAdjacentRooms());
+            try{
+                turnOption = userChoice.substring(0,userChoice.indexOf(' '));
+                roomChoice = userChoice.substring(userChoice.indexOf(' ')+1);
+                if(turnOption.equals("move")){
+                    return validRoom(roomChoice, curroom.getAdjacentRooms());
+                }
+                else{
+                    System.out.println("Not a valid turn option or room please choose move room name");
+                    return false;
+                }
             }
-            else{
-                System.out.println("Not a valid turn option or room please choose move room name");
+            catch(IndexOutOfBoundsException e){
+                System.out.println("INVALID INPUT");
                 return false;
             }
-        }
-        catch(IndexOutOfBoundsException e){
-            System.out.println("INVALID INPUT");
-            return false;
-        }
-        
-    }
-    ////////////////////////////////////////////////
-    /*
-     * if player is in the casting office at the begining of the turn
-     * ask if he wants to stay idel if no
-     * ask to upgrade if yes ask for an upgrade and check if it is valid
-     * ask after upgrading if player wants to move
-     * if yes check for valid move
-     */
-    ///////////////////////
+            
+      }
+////////////////////////////////////////////////
+/*
+if player is in the casting office at the begining of the turn
+ask if he wants to stay idel if no
+ask to upgrade if yes ask for an upgrade and check if it is valid
+ask after upgrading if player wants to move
+if yes check for valid move
+*/
+///////////////////////
     public void turn (Office curroom){
         printTurn();
         
@@ -260,31 +260,31 @@ public class Player{
         System.out.println("End of turn");   
         printTurn();
     }
-    
+
     private boolean parseChoice(String userChoice, Office curroom){
         String turnOption = "";        
         String roomChoice = "";
-        try{
-            turnOption = userChoice.substring(0,userChoice.indexOf(' '));
-            roomChoice = userChoice.substring(userChoice.indexOf(' ')+1);
-            if(turnOption.equals("move")){
-                return validRoom(roomChoice, curroom.getAdjacentRooms());
+            try{
+                turnOption = userChoice.substring(0,userChoice.indexOf(' '));
+                roomChoice = userChoice.substring(userChoice.indexOf(' ')+1);
+                if(turnOption.equals("move")){
+                    return validRoom(roomChoice, curroom.getAdjacentRooms());
+                }
+                else{
+                    System.out.println("Not a valid turn option or room please choose move room name");
+                    return false;
+                }
             }
-            else{
-                System.out.println("Not a valid turn option or room please choose move room name");
+            catch(IndexOutOfBoundsException e){
+                System.out.println("INVALID INPUT");
                 return false;
             }
-        }
-        catch(IndexOutOfBoundsException e){
-            System.out.println("INVALID INPUT");
-            return false;
-        }
-    }
-    ////////////////////////////////////////////////
-    /*
-     * these functions are for printing turn options and the state at the begining of the turn
-     */
-    ///////////////////////
+      }
+////////////////////////////////////////////////
+/*
+these functions are for printing turn options and the state at the begining of the turn
+*/
+///////////////////////
     private void printTurn(){
         System.out.println("--------------------------------------------------------------------");
     }
@@ -303,27 +303,27 @@ public class Player{
         System.out.printf("\nAvailable roles:\nStar: ");
         for (String s : starRoles)
             if(s!=null){
-                System.out.printf("|%s| ", s);
+               System.out.printf("|%s| ", s);
             }
-            
+        
     }
     private void bitRoleOption(ArrayList<String>bitRoles){
         System.out.printf("\nBit: ");
         for (String s : bitRoles)
             if(s!=null){
-                System.out.printf("|%s| ", s);
+               System.out.printf("|%s| ", s);
             }
-            System.out.println();
+         System.out.println();
     }
     private void playerState (){
         System.out.printf("%s you are in the %s room\nRole: %s\nCredits: %d\nDollars: %d\nRank: %d\n",this.name, this.room, this.role, this.credits, this.dollars, this.rank);
     }
-    ////////////////////////////////////////////////
-    /*
-     * check if the player wants to stay idel or not 
-     * if yes return true will cause turn method to skip other options
-     */
-    ///////////////////////
+////////////////////////////////////////////////
+/*
+check if the player wants to stay idel or not 
+if yes return true will cause turn method to skip other options
+*/
+///////////////////////
     private boolean stayIdel(){
         boolean validInput = false;
         String userChoice = "";
@@ -339,17 +339,17 @@ public class Player{
                 return false;
             }
             else{
-                System.out.println("Please enter y or n");
+               System.out.println("Please enter y or n");
             }
         }
         return false;
     }
-    ////////////////////////////////////////////////
-    /*
-     * similar to stayIdel above but asking if they would like to upgrade or not
-     * will only be called in the office
-     */
-    ///////////////////////
+////////////////////////////////////////////////
+/*
+similar to stayIdel above but asking if they would like to upgrade or not
+will only be called in the office
+*/
+///////////////////////
     private boolean chooseUpgrade(){
         boolean validInput = false;
         String userChoice = "";
@@ -367,63 +367,63 @@ public class Player{
         }
         return false;
     }
-    ////////////////////////////////////////////////
-    /*
-     * if the player chooses to upgrade their rank
-     * check if the upgrade is valid then increase rank 
-     * and decrease credits or dollars
-     */
-    ///////////////////////
+////////////////////////////////////////////////
+/*
+if the player chooses to upgrade their rank
+check if the upgrade is valid then increase rank 
+and decrease credits or dollars
+*/
+///////////////////////
     private boolean upgradeRank(Office curroom){
         String userChoice = "";
         String inputSplit[];
         int upgradeCost = 0;
         Scanner console = new Scanner(System.in);
         if(curroom.possibleUpgrades(this.dollars, this.credits, this.rank)){
-            try{
-                System.out.println("Choose an upgrade and currency");
-                userChoice = console.nextLine();
-                inputSplit = userChoice.split("\\s+");
-                upgradeCost = curroom.checkValid(inputSplit[1], Integer.parseInt(inputSplit[2]));
-                if(inputSplit[0].equals("upgrade")){
-                    if(inputSplit[1].equals("$")){
-                        if(this.dollars >= upgradeCost){
-                            this.rank = Integer.parseInt(inputSplit[2]);
-                            this.dollars -= upgradeCost;
-                            System.out.printf("Congratulations new rank %d\n", this.rank);
-                            return true;
-                        }
-                    }
-                    else if(inputSplit[1].equals("cr")){
-                        if(this.credits >= upgradeCost){
-                            this.rank = Integer.parseInt(inputSplit[2]);
-                            this.credits -= upgradeCost;
-                            System.out.printf("Congratulations new rank %d\n", this.rank);
-                            return true;
-                        }
-                    }
-                    else{
-                        return false;
-                    }
-                }
-            }
-            catch(IndexOutOfBoundsException e){
-                System.out.println("INVALID INPUT");
-                return false;
-            }
+           try{
+              System.out.println("Choose an upgrade and currency");
+              userChoice = console.nextLine();
+              inputSplit = userChoice.split("\\s+");
+              upgradeCost = curroom.checkValid(inputSplit[1], Integer.parseInt(inputSplit[2]));
+              if(inputSplit[0].equals("upgrade")){
+                  if(inputSplit[1].equals("$")){
+                      if(this.dollars >= upgradeCost){
+                          this.rank = Integer.parseInt(inputSplit[2]);
+                          this.dollars -= upgradeCost;
+                          System.out.printf("Congratulations new rank %d\n", this.rank);
+                          return true;
+                      }
+                  }
+                  else if(inputSplit[1].equals("cr")){
+                     if(this.credits >= upgradeCost){
+                        this.rank = Integer.parseInt(inputSplit[2]);
+                        this.credits -= upgradeCost;
+                        System.out.printf("Congratulations new rank %d\n", this.rank);
+                        return true;
+                     }
+                  }
+                  else{
+                     return false;
+                  }
+              }
+           }
+           catch(IndexOutOfBoundsException e){
+               System.out.println("INVALID INPUT");
+               return false;
+           }
         }
         else{
             return true;
         }
         return false;
     }   
-    ////////////////////////////////////////////////
-    /*
-     * check if the role they want to take is valid
-     * and their rank is high enough
-     * idelBitStar coresponds to weather they are idel = 0 have a bit role = 1 or a star = 2 
-     */
-    ///////////////////////    
+////////////////////////////////////////////////
+/*
+check if the role they want to take is valid
+and their rank is high enough
+idelBitStar coresponds to weather they are idel = 0 have a bit role = 1 or a star = 2 
+*/
+///////////////////////    
     private boolean validWork(String chooseRole, Room curroom){
         String fullName = searchRoles(curroom.getStarRoles(), chooseRole);
         if(!fullName.equals("")){
@@ -442,14 +442,14 @@ public class Player{
                 System.out.println("Not a valid role please re-enter role name exactly as it apears above and that is equal to or lower than rank.");
             }
         }    
-        return false;
+    return false;
     }
     
-    ////////////////////////////////////////////////
-    /*
-     * check if the room they chose to move to is a valid room
-     */
-    ///////////////////////
+////////////////////////////////////////////////
+/*
+check if the room they chose to move to is a valid room
+*/
+///////////////////////
     private boolean validRoom(String room, ArrayList<String>availableMoves){
         if(availableMoves.contains(room)){
             updateRoom(room);
@@ -460,35 +460,35 @@ public class Player{
             return false;
         }
     }
-    ////////////////////////////////////////////////
-    /*
-     * the room keeps track of the role "name of role"+">"+"rank of role"
-     * this method returns an array list of all the roles that the player can take
-     * 
-     * ///////////////////////    
-     *    private ArrayList<String> parseList(ArrayList<String> available){
-     *        String[] parse;
-     *        ArrayList<String> result = new ArrayList<String>();
-     *        for(String role : available){
-     *            try{
-     *                parse = role.split(">");
-     *                if(Integer.parseInt(parse[1]) <= this.rank){
-     *                    result.add(parse[0]);
-}
-}
-catch(IndexOutOfBoundsException e){
-System.out.println("file input wrong");
-}
-}
-return result;
-}
+////////////////////////////////////////////////
+/*
+the room keeps track of the role "name of role"+">"+"rank of role"
+this method returns an array list of all the roles that the player can take
+
+///////////////////////    
+    private ArrayList<String> parseList(ArrayList<String> available){
+        String[] parse;
+        ArrayList<String> result = new ArrayList<String>();
+        for(String role : available){
+            try{
+                parse = role.split(">");
+                if(Integer.parseInt(parse[1]) <= this.rank){
+                    result.add(parse[0]);
+                }
+            }
+            catch(IndexOutOfBoundsException e){
+                System.out.println("file input wrong");
+            }
+        }
+        return result;
+    }
 */
-    ////////////////////////////////////////////////
-    /*
-     * if a player chooses a role to take search for it in the rooms roles 
-     * if it exists and thier rank is high enough the return true
-     */
-    ///////////////////////
+////////////////////////////////////////////////
+/*
+if a player chooses a role to take search for it in the rooms roles 
+if it exists and thier rank is high enough the return true
+*/
+///////////////////////
     private String searchRoles(ArrayList<String> available, String chooseRole){
         String[] parse;
         for(String role : available){
@@ -514,7 +514,7 @@ return result;
         }
         else{
             if(rehearsals.get(this.role)!=null){
-                num=rehearsals.get(this.role);
+               num=rehearsals.get(this.role);
             }
             int sum = dice.act(num);
             int budget=curroom.getBudget();
@@ -528,11 +528,11 @@ return result;
                     System.out.println("You rolled a "+sum+"!"+" Congratulations you earned 1 credit and 1 dollar!");
                     updateDollars(1);
                     updateCredits(1);
-                }
-                else{
-                    System.out.println("You rolled a "+sum+"!"+" Sorry you didnt make budget, but you still get 1 dollar!");
-                    updateDollars(1);
-                } 
+                    }
+                    else{
+                        System.out.println("You rolled a "+sum+"!"+" Sorry you didnt make budget, but you still get 1 dollar!");
+                        updateDollars(1);
+                    } 
             }
             else{
                 if(sum>=budget){

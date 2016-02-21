@@ -1,0 +1,10 @@
+Secret Hideout,3,Casting Office///Ranch///Church,Clumsy Pit Fighter>1///Thug with Knife>2///Dangerous Tom>3///Penny who is Lost>4 
+Ranch,2,Casting Office///General Store///Secret Hideout///Bank,Shot in Leg>1///Saucy Fred>2///Man Under Horse>3
+General Store,2,Ranch///Jail///Train Station///Saloon,Man in Overalls>1///Mister Keach>3
+Jail,1,General Store///Train Station///Main Street,Prisoner in Cell>2///Feller in Irons>3
+Train Station,3,Casting Office///Jail///General Store,Crusty Prospector>1///Dragged by Train>1///Preacher with Bag>2///Cyrus the Gunfighter>4
+Church,2,Secret Hideout///Hotel///Bank,Dead Man>1///Crying Woman>2
+Hotel,3,Church///Bank///trailer,Sleeping Drunkard>1///Faro Player>1///Falls from Balcony>2///Australian Bartender>3
+Bank,1,Hotel///Church///Saloon///Ranch,Suspicious Gentleman>2///Flustered Teller>3
+Saloon,2,Bank///General Store///Main Street///trailer,Woman in Red Dress>2///Relectant Farmer>1
+Main Street,3,Jail///Saloon///trailer,Railroad Worker>1///Falls off Roof>2///Woman in Black Dress>2///Mayor McGinty>4
