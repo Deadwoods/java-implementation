@@ -2,7 +2,7 @@ import java.lang.*;
 import java.util.*;
 
 public class Office{
-    private ArrayList<String> adjRooms = new ArrayList();
+    private ArrayList<String> adjRooms = new ArrayList<String>();
     
     public Office(ArrayList<String> adjRooms){
         this.adjRooms = adjRooms;
