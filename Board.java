@@ -44,6 +44,7 @@ public class Board{
                 else if(Integer.parseInt(x[1])==1){
                     System.out.printf("Player %d was on a bit role and recieved %d dollars\n",i,Integer.parseInt(x[2]));
                     players[i].updateDollars(Integer.parseInt(x[2]));
+                    players[i].setRole("");
                 }
             }
             
