@@ -23,7 +23,7 @@ public class Player{
         this.name = name;
         this.dice=dice;
     }
-    
+    //setters and getters
     public int getDollars(){
         return this.dollars;
     }
@@ -128,7 +128,7 @@ public class Player{
         System.out.println("End of turn");
         printTurn();
     }
-    
+   //If player chooses to work or move validate and call functions
     private boolean parseChoice(String userChoice, Room curroom){
         String turnOption = "";
         String roomOrRole = "";
@@ -153,7 +153,7 @@ public class Player{
         }
         
     }
-    
+    //if player chooses to act validate and call functions
     private boolean parseActingChoice(Room curroom, String userChoice){
         try{
             if(userChoice.equals("act")){
@@ -178,8 +178,8 @@ public class Player{
     }
     ////////////////////////////////////////////////
     /*
-     * if player is in the trailer he can only move or stay idle
-     * if he wants to move check for a valid move
+     * if player is in the trailer the only options are move or stay idle
+     * if move is selected check for a valid move
      */
     ///////////////////////
     public void turn (Trailer curroom){
@@ -201,7 +201,7 @@ public class Player{
         System.out.println("End of turn");        
         printTurn();
     }
-    
+    //validate move choice
     private boolean parseChoice(String userChoice, Trailer curroom){
         String turnOption = "";        
         String roomChoice = "";
@@ -225,7 +225,7 @@ public class Player{
     ////////////////////////////////////////////////
     /*
      * if player is in the casting office at the begining of the turn
-     * ask if he wants to stay idle if no
+     * ask if player wants to stay idle if no
      * ask to upgrade if yes ask for an upgrade and check if it is valid
      * ask after upgrading if player wants to move
      * if yes check for valid move
@@ -258,7 +258,7 @@ public class Player{
         System.out.println("End of turn");   
         printTurn();
     }
-    
+    //validate move 
     private boolean parseChoice(String userChoice, Office curroom){
         String turnOption = "";        
         String roomChoice = "";
@@ -288,7 +288,7 @@ public class Player{
     }
     private void actingOptions(Room curroom){
         System.out.printf("You are currently acting and must continue untill the card has been completed.\nRole: %s\n",this.role);
-        System.out.printf("Total rehearlas for current role: %d, Budget for role: %s, Remaining Shot counters: %d\n", rehearsals.get(this.role),curroom.getBudget(), curroom.getShotCounter());
+        System.out.printf("Total rehearlas for current role: %d, Budget for role: %s || Remaining Shot counters: %d\n", rehearsals.get(this.role),curroom.getBudget(), curroom.getShotCounter());
         System.out.println("Would you like to act or Rehearse.");
     }
     private void moveOption(ArrayList<String>availableMoves){
@@ -460,29 +460,6 @@ public class Player{
     }
     ////////////////////////////////////////////////
     /*
-     * the room keeps track of the role "name of role"+">"+"rank of role"
-     * this method returns an array list of all the roles that the player can take
-     * 
-     * ///////////////////////    
-     *    private ArrayList<String> parseList(ArrayList<String> available){
-     *        String[] parse;
-     *        ArrayList<String> result = new ArrayList<String>();
-     *        for(String role : available){
-     *            try{
-     *                parse = role.split(">");
-     *                if(Integer.parseInt(parse[1]) <= this.rank){
-     *                    result.add(parse[0]);
-}
-}
-catch(IndexOutOfBoundsException e){
-System.out.println("file input wrong");
-}
-}
-return result;
-}
-*/
-    ////////////////////////////////////////////////
-    /*
      * if a player chooses a role to take search for it in the rooms roles 
      * if it exists and thier rank is high enough the return true
      */
@@ -505,6 +482,16 @@ return result;
         }
         return "";
     }
+
+    ////////////////////////////////////////////////
+    /*
+    * given the room and int, if 0 add to rehearse if 1 attempt role
+    * if the player is curently acting on a role
+    * find num rehearslas the player has on the roleattempting
+    * role dice and decrease shot counter if budget made
+    * if on bit or star update curenceny acordingly
+    */
+    ///////////////////////
     private void actingState(Room curroom,int choice){ 
         int num=0;     
         if(choice==0){

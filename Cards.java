@@ -1,10 +1,11 @@
 public class Cards{
+   //card objects get created by deck 
     private String card_info;
     private String scene;
     private int budget;
     private String[] array;
     private String[] rolesArray;
-    
+    //split card info by ///
     public Cards(String card_info){
         this.array = card_info.split("///");       
         this.scene = array[0];
@@ -17,8 +18,7 @@ public class Cards{
         }
         
         
-    }
-    
+    } 
     
     
     public String getScene(){

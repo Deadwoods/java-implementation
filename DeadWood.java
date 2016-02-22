@@ -3,9 +3,11 @@ import java.lang.*;
 import java.io.*;
 import java.io.File;
 
+//Deadwood is driver class
+
 public class DeadWood{
     public static void main(String[]	args)	{	 
-        
+        //Initializes amounts that will be determined by user input
         int numplayer=0;
         int credits=0;
         int numdays=4;
@@ -15,7 +17,7 @@ public class DeadWood{
         Dice dice= new Dice();
         
         
-        
+        //get the number of players from user
         Scanner console  = new Scanner(System.in);
         System.out.println("Enter number of players: ");
         while(!valid){
@@ -33,13 +35,16 @@ public class DeadWood{
             }			
         }
         console.nextLine();
+        //hold all player objects in player array to be passed to board
         Player[] players=new Player[numplayer];
         String name = "";
+        //creates players and prompts user for player name
         for(int i=0;i<numplayer;i++){
             System.out.printf("Player %d choose your name:",i);
             name = console.nextLine();
             players[i]=new Player(rank,dollars,credits,name,dice);
         }
+        //switch statement using user input to determine starting values 
         switch(numplayer){
             case 2:
             case 3:
@@ -56,7 +61,7 @@ public class DeadWood{
                 rank=2;
                 break;
         }
-        
+        //creates board then calls board to create the rooms then calls start game
         Board board = new Board(numdays,players,dice);
         board.createRooms();
         board.createTrailer();

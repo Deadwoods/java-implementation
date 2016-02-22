@@ -1,8 +1,7 @@
 import java.util.Random;
 public class Dice{
     
-    /*This method lets the user know if they had a correct role (made the budget) 
-     *or had an incorrect role (did not make budget). The player class will use the method*/
+    //act creates random number from 1 to 6 and adds rehearsal value passed to it and returns that value 
     public int act(int rehearsals){
         Random dice = new Random();
         int total=dice.nextInt(6)+1;
@@ -10,7 +9,10 @@ public class Dice{
     }
     
     
-    //This method will calculate the payout for the players. The board will use this method.   
+    //this takes the budget roles for the amount of times equal to budget then store those value in array
+    //it then uses insertion sort to sort values
+    //after that it uses the number of star toles to determine the values of the final array it returns which 
+    //will contain the payout corresponding to the highest to lowest for each starrole on that card   
     public int[] payout(int starroles, int budget){
         System.out.println("Money role!");
         int[] payout = new int[starroles];

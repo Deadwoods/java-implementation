@@ -4,6 +4,9 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.*;
 
+//Board creates all the rooms and the dice and deck classes
+//Board will control flow of entire game
+
 public class Board{
     
     private Player[] players;   
@@ -21,6 +24,9 @@ public class Board{
         this.dice=dice;  
     }
     //payout for finishing card
+    //checks every player if there in the room and acting star role they get included in payout
+    //calls dice.payout that returns sorted array of payout values 
+    //pays players and sets state to idle
     public void calcPayout(Room room1){
         String roomname=room1.getName();
         int starroles=room1.getNumStarRoles();
@@ -42,7 +48,7 @@ public class Board{
             }
             
         }
-        int[] pay = dice.payout(starroles,budget);//could be error possibly test
+        int[] pay = dice.payout(starroles,budget);
         int[] roles=new int[starroles];
         String[] temp=new String[2];
         HashMap<String,String> starroles1=room1.getStarMap();
@@ -84,7 +90,8 @@ public class Board{
     }
     
     
-    
+    //creates the trailer
+    //available rooms
     public void createTrailer(){
         try{
             File trailerfile = new File("Trailer.txt");
@@ -104,6 +111,8 @@ public class Board{
         }
     }
     
+    //creates office
+    //available rooms
     public void createOffice(){
         try{
             File officefile = new File("CastingOffice.txt");
@@ -125,7 +134,8 @@ public class Board{
     
     
     
-    
+    //creates all the rooms using Roominfo.txt
+    //calls deck to deal card to everyroom
     public void createRooms(){               
         int i=0;  
         deck.loadCards(); 
@@ -144,6 +154,9 @@ public class Board{
         }      
     }
     
+    //checks if room that was just worked in has any more shot counters
+    //if it doesnt it updates the cards which is the running count of all the cards still out on board
+    //it then calls payout for that specific room and then calls flip card that will make rooms star roles and  bitroles unviewable
     public void updateCard(Room room1){
         if(room1.getShotCounter()==0){
             this.cards-=1;
@@ -153,6 +166,10 @@ public class Board{
         }      
     }
     
+    //called after cards=1 which signifies new day
+    //resets cards to 10, removes star roles for every room and calls deck to deal new card to every room, resets rooms counter and bit roles
+    //returns players to trailer in idle state and clears all there rehearsals
+    //if days is 0 is calls calcWinner and prints player with highest score
     public void newDay(){
         this.cards = 10;
         numdays-=1;
@@ -178,12 +195,14 @@ public class Board{
         System.out.println();
     }
     
-    
+    //called by calWinner 
+    //calculates players final score 
     private int calcPayOut(Player player){
         int finalScore = player.getDollars() + player.getCredits() + ((player.getRank())*5);
         return finalScore;
     }
-    
+    //called at end of game determines player with highest score 
+    //or if theres a tie it saves players in array with high score 
     public void calcWinner(){
         String[] winners = new String[this.players.length];
         int max=0;
@@ -216,7 +235,12 @@ public class Board{
     }
     
     
-    
+    //main game loop 
+    //loop while days is greater than 0
+    //iner loop is for cards greater than 1
+    //gets room name from player then calls player turn with the room object there in
+    //after every player turn it checks shot counters
+    //will call newDay if cards=1 
     public void startGame(){
         int i=0;
         while(numdays>0){

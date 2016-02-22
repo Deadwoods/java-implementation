@@ -11,7 +11,8 @@ public class Office{
     public ArrayList<String> getAdjacentRooms(){
         return this.adjRooms;
     }
-    
+    //Given a string either "$" or "cr" and an int rank the player wished to upgrade to
+    //return the credit or dallar amount for that rank
     public static int checkValid(String $_OR_cr, int rank){
         if($_OR_cr.equals("cr")){
             if(rank == 2){
@@ -58,7 +59,8 @@ public class Office{
             return 0;
         }
     }
-    
+    //Given the players dollar/credit aomount and rank
+    //Print any possible upgrades and return true if at least one if found
     public static boolean possibleUpgrades(int cur_Dollar, int cur_Credit, int cur_Rank){
         
         if((cur_Dollar<4 && cur_Credit<5) || cur_Rank > 5){
