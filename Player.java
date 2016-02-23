@@ -109,6 +109,7 @@ public class Player{
             if(this.idleBitStar == 0){
                 while(!validInput){
                     moveOption(curroom.getAdjacentRooms());
+                    System.out.printf("\nRoom Budget: %d || Shot counters: %d\n", curroom.getBudget(), curroom.getShotCounter());
                     starRoleOptions(curroom.getStarRoles());
                     bitRoleOption(curroom.getBitRoles());
                     userChoice = console.nextLine();
@@ -298,7 +299,7 @@ public class Player{
         System.out.println();
     }
     private void starRoleOptions(ArrayList<String>starRoles){
-        System.out.printf("\nAvailable roles:\nStar: ");
+        System.out.printf("Available roles:\nStar: ");
         for (String s : starRoles)
             if(s!=null){
                 System.out.printf("|%s| ", s);
